@@ -141,6 +141,14 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Aggregate.h" />
+    <ClInclude Include="Interpreter.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Sorting.h" />
+    <ClInclude Include="System.h" />
+    <ClInclude Include="Tag.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
