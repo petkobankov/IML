@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aggregate.h" />

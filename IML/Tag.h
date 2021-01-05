@@ -13,5 +13,5 @@ public:
 protected:
 	string name;
 	string additionalInputType="null";
-	bool hasAdditionalInput = false;
+	bool additionalInput = false;
 };

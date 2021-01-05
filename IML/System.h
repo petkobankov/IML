@@ -8,8 +8,10 @@ private:
 	string outputFile;
 	Interpreter mainInterpreter;
 
-	void getFileNames();
-	void validateFiles();
+	void getOutputFileName();
+	void getInputFileName();
+	void validateInputFileName();
+	void validateOutputFileName();
 	void interprateInput();
 	void outputResult();
 public:
