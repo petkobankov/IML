@@ -44,7 +44,8 @@ void System::checkSyntax()
 
 void System::initiateLexer()
 {
-
+	inputLexer.loadFile(inputFile);
+	inputLexer.start();
 }
 
 void System::initiateParser()
