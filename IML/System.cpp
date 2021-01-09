@@ -63,4 +63,5 @@ void System::start()
 	//getOutputFileName();
 	//validateInputFileName();
 	//validateOutputFileName();
+	checkSyntax();
 }

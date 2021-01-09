@@ -15,22 +15,5 @@ Tag* Interpreter::removeTag(const string& tagName)
 
 void Interpreter::start()
 {
-	if (inputFile.empty()) {
-		throw "Input file missing!";
-	}
-	ifstream iFile(inputFile);
-	char input;
-	while (iFile.get(input)) {
-		buffer.push_back(input);
-	}
-	bufferSize = buffer.size();
-	enum class states { start, finish,invalid,number };
-	states currentState = states::start;
-	std::cout << start;
-	int currentPosition = 0;
-	while(currentPosition< bufferSize)
-	{
-
-
-	}
+	
 }
