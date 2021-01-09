@@ -10,7 +10,6 @@ private:
 	float currentNumber;
 	bool currentNumberSign; //true +, false -
 	string buffer;
-	int currentPosition;
 	int bufferSize;
 	vector<float> result;
 	stack<Tag> tags;
@@ -18,9 +17,12 @@ private:
 	stack<int> tagStartPos;
 	stack<int> tagEndPos;
 	Tag* createTag(const string& tagName);
-	bool isPositionValid(int pos) {return pos>=0 && pos<bufferSize}
+	Tag* removeTag(const string& tagName);
+	bool isPositionValid(int pos) { return pos >= 0 && pos < bufferSize; };
+	void advance();
+
 public:
 	Interpreter() = default;
-	Interpreter(const string& inputFile) : inputFile(inputFile), currentNumber(0), result(), tags(), tagValidation(), tagStartPos(), tagEndPos() {};
+	Interpreter(const string& inputFile) : inputFile(inputFile), currentNumber(0), result(), tags(), tagValidation(), tagStartPos(), tagEndPos(),currentNumberSign(true),bufferSize() {};
 	void start();
 };

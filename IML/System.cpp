@@ -35,15 +35,26 @@ void System::validateOutputFileName()
 
 }
 
-void System::interprateInput()
+void System::checkSyntax()
 {
 	inputFile = "input.txt"; // delete after testing
-	mainInterpreter = Interpreter(inputFile);
-	mainInterpreter.start();
+	inputSyntaxChecker.loadFile(inputFile);
+	inputSyntaxChecker.checkSyntax();
+}
+
+void System::initiateLexer()
+{
+
+}
+
+void System::initiateParser()
+{
+
 }
 
 void System::outputResult()
 {
+
 }
 
 void System::start()
@@ -52,5 +63,4 @@ void System::start()
 	//getOutputFileName();
 	//validateInputFileName();
 	//validateOutputFileName();
-	interprateInput();
 }

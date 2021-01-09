@@ -1,18 +1,24 @@
 #pragma once
 #include <string>
-#include "Interpreter.h"
+#include "SyntaxChecker.h"
+#include "Lexer.h"
+#include "Parser.h"
 using namespace std;
 class System {
 private:
 	string inputFile;
 	string outputFile;
-	Interpreter mainInterpreter;
+	SyntaxChecker inputSyntaxChecker;
+	Lexer inputLexer;
+	Parser inputParser;
 
 	void getOutputFileName();
 	void getInputFileName();
 	void validateInputFileName();
 	void validateOutputFileName();
-	void interprateInput();
+	void checkSyntax();
+	void initiateLexer();
+	void initiateParser();
 	void outputResult();
 public:
 	void start();
