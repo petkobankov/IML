@@ -26,7 +26,7 @@ private:
 	InputSystem currentInput;
 	int line_count;
 	int col_count;
-	
+	string error_msg;
 	//Used when updating the main state.
 	void updateStateFromTo(main_state from, main_state to, bool isNewStateFinal=false);
 	//The bottom two functions are for the tag and number sub states
@@ -43,7 +43,7 @@ private:
 	void updateLineCount(bool positive=true);
 
 public:
-	SyntaxChecker(): line_count(1),col_count(1),inputFile(), currentMainState(main_state::none), prevMainState(main_state::none), currentInput(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};
+	SyntaxChecker(): error_msg(),line_count(1),col_count(1),inputFile(), currentMainState(main_state::none), prevMainState(main_state::none), currentInput(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};
 	void loadFile(const std::string& inputFile) { this->inputFile = inputFile; };
 	void checkSyntax();
 };

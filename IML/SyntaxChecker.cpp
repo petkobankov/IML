@@ -21,6 +21,11 @@ void SyntaxChecker::defaultState()
 		pauseStreamPointer();
 	}
 	else {
+		//When throwing an exception, this message is added for additional information. 
+		if (currentInput.isUpperCase() || currentInput.isLowerCase())
+			error_msg = "Excepting only numbers between tags.";
+		if (currentInput.isRightArrow())
+			error_msg = "Tags must start with '<'.";
 		//If the input is anything else from space,digit,dash,left arrow the program outputs there is error with the syntax. 
 		updateStateFromTo(main_state::none, main_state::error);
 	}
@@ -49,6 +54,13 @@ void SyntaxChecker::tagState()
 			updateTagState('e');
 		}
 		else {
+			error_msg = "Tag name can't start with other than upper case letter.";
+			if (currentInput.isLowerCase())
+				error_msg = "Excepting only upper case letters for tag name.";
+			if (currentInput.isRightArrow())
+				error_msg = "Tags can't be empty.";
+			if (currentInput.isLeftArrow())
+				error_msg = "Only one left arrow is needed.";				
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -66,6 +78,7 @@ void SyntaxChecker::tagState()
 			exitFromTagState();
 		}
 		else {
+			error_msg = "Tag name should be in upper case letters(A '-' is allowed in the name).";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -75,6 +88,7 @@ void SyntaxChecker::tagState()
 			updateTagState('d');
 		}
 		else {
+			error_msg = "Expected a '\"'. There should be one col. difference between tag name and additional info.";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -91,6 +105,7 @@ void SyntaxChecker::tagState()
 			pauseStreamPointer();
 		}
 		else {
+			error_msg = "Additional info for a tag can only be a string(upper case letters) or a number.";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -103,6 +118,7 @@ void SyntaxChecker::tagState()
 			updateTagState('t');
 		}
 		else {
+			error_msg = "Additional info for tag should be in upper case letters if it's a string.";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -113,6 +129,7 @@ void SyntaxChecker::tagState()
 			updateTagState('t');
 		}
 		else {
+			error_msg = "Additional info for tag should consist of digits, '-' or '.' if it's a number.";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -122,6 +139,7 @@ void SyntaxChecker::tagState()
 			exitFromTagState();
 		}
 		else {
+			error_msg = "A '>' was expected. The syntax doesn't allow spaces between end tag and internals.";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -136,6 +154,7 @@ void SyntaxChecker::tagState()
 			exitFromTagState();
 		}
 		else {
+			error_msg = "The syntax for end tag is </TAG-NAME>. No spaces allowed.";
 			updateStateFromTo(main_state::tag, main_state::error);
 		}
 		break;
@@ -166,6 +185,7 @@ void SyntaxChecker::numberState()
 			updateNumState('n',true);
 		}
 		else {
+			error_msg = "There should be at least one digit after a '-'.";
 			updateStateFromTo(main_state::number, main_state::error);
 		}
 		break;
@@ -187,6 +207,7 @@ void SyntaxChecker::numberState()
 			updateNumState('a',true);
 		}
 		else {
+			error_msg = "There should be at least one digit after a dot.";
 			updateStateFromTo(main_state::number, main_state::error);
 		}
 		break;
@@ -272,8 +293,7 @@ void SyntaxChecker::pauseStreamPointer()
 void SyntaxChecker::stopCheck()
 {
 	iFile.close();
-	if (!canFinish()) throw MyException(e_type::syntax, "", line_count, col_count-1);
-	//"Syntax Error on \nThe program uses a strict syntax check. \nTag syntax: <TAG-NAME \"NUMBER\"> or <TAG-NAME \"UPPER_CASE_LETTERS\"> or <TAG-NAME> or </TAG-NAME>. \nBetween the tags should be only numbers";
+	if (!canFinish()) throw MyException(e_type::syntax, error_msg, line_count, col_count-1);
 }
 
 void SyntaxChecker::updateLineCount(bool positive)

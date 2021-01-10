@@ -8,6 +8,7 @@ public:
 	bool isDash() { return isInput('-'); };
 	bool isDot() { return isInput('.'); };
 	bool isUpperCase() { return (data >= 'A' && data <= 'Z'); };
+	bool isLowerCase() { return (data >= 'a' && data <= 'z'); };
 	bool isQuote() { return isInput('"'); };
 	bool isLeftArrow() { return isInput('<'); };
 	bool isRightArrow() { return isInput('>'); };
