@@ -1,6 +1,7 @@
 #include "System.h"
 #include <iostream>
 #include <fstream>
+#include "MyException.h"
 void System::getInputFileName()
 {
 	std::cout << "Enter filename for the input: " << std::endl;
@@ -60,9 +61,16 @@ void System::outputResult()
 
 void System::start()
 {
-	//getInputFileName();
-	//getOutputFileName();
-	//validateInputFileName();
-	//validateOutputFileName();
-	checkSyntax();
+	
+	try {
+		//getInputFileName();
+		//getOutputFileName();
+		//validateInputFileName();
+		//validateOutputFileName();
+		checkSyntax();
+	}
+	catch (const MyException& e) {
+		std::cout << e.getMessage() << std::endl;
+	}
+	
 }

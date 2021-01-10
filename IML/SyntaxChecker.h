@@ -37,10 +37,10 @@ private:
 	//It's called when there is no more input. Checks if the last state was final.
 	bool canFinish() { return lastStateWasFinal; }
 	//if the input was "..> 2.34 <..". The current state is default and we read the digit 2. We change to state 'number' and now we are reading the dot. It's easier if we pause the input and when we change to state 'number' we are still reading the digit 2.  
-	void pauseStreamPointer() { iFile.seekg(-1, ios::cur); }
+	void pauseStreamPointer();
 	//Stops the checking of the syntax. Called when there is no more input, or if there is an error.
 	void stopCheck();
-	void updateLineCount();
+	void updateLineCount(bool positive=true);
 
 public:
 	SyntaxChecker(): line_count(1),col_count(1),inputFile(), currentMainState(main_state::none), prevMainState(main_state::none), currentInput(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};

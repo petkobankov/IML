@@ -1,6 +1,7 @@
 #include "SyntaxChecker.h"
 #include <fstream>
 #include <iostream>
+#include "MyException.h"
 using namespace std;
 void SyntaxChecker::defaultState()
 {
@@ -262,27 +263,36 @@ void SyntaxChecker::exitFromNumState()
 	pauseStreamPointer();
 }
 
+void SyntaxChecker::pauseStreamPointer()
+{
+	iFile.seekg(-1, ios::cur);
+	updateLineCount(false);
+}
+
 void SyntaxChecker::stopCheck()
 {
 	iFile.close();
-	if (!canFinish()) throw "Syntax Error on \nThe program uses a strict syntax check. \nTag syntax: <TAG-NAME \"NUMBER\"> or <TAG-NAME \"UPPER_CASE_LETTERS\"> or <TAG-NAME> or </TAG-NAME>. \nBetween the tags should be only numbers";
+	if (!canFinish()) throw MyException(e_type::syntax, "", line_count, col_count-1);
+	//"Syntax Error on \nThe program uses a strict syntax check. \nTag syntax: <TAG-NAME \"NUMBER\"> or <TAG-NAME \"UPPER_CASE_LETTERS\"> or <TAG-NAME> or </TAG-NAME>. \nBetween the tags should be only numbers";
 }
 
-void SyntaxChecker::updateLineCount()
+void SyntaxChecker::updateLineCount(bool positive)
 {
+	int inc;
+	positive ? inc = 1 : inc = -1;
 	if (currentInput.isNewLine()) {
-		line_count++;
+		line_count+=inc;
 		col_count = 1;
 	}
 	else {
-		col_count++;
+		col_count += inc;
 	}
 }
 
 void SyntaxChecker::checkSyntax()
 {
 	if (inputFile.empty()) {
-		throw "Input file missing!";
+		throw MyException(e_type::error, "Input file missing!");
 	}
 	iFile.open(inputFile);
 
@@ -302,7 +312,7 @@ void SyntaxChecker::checkSyntax()
 			errorState();
 			break;
 		default:
-			throw "Internal error!";
+			throw MyException(e_type::internal);
 			break;
 		}
 		updateLineCount();
