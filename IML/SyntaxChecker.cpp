@@ -4,17 +4,17 @@
 using namespace std;
 void SyntaxChecker::defaultState()
 {
-	if (isSpace()) {
+	if (input.isSpace()) {
 		//By default if the input is space it's ignored. The state is final, so that if the input stops there is no syntax error.
 		updateStateFromTo(main_state::none, main_state::none,true);
 	}
-	else if (isDigit() || isDash()) {
+	else if (input.isDigit() || input.isDash()) {
 		//if the current input is -, or a digit then we move to the number state. The number state has sub states. 
 		updateStateFromTo(main_state::none, main_state::number);
 		//The stream is paused so that the code is more understandable. 
 		pauseStreamPointer();
 	}
-	else if (isLeftArrow()) {
+	else if (input.isLeftArrow()) {
 		//The input is '<' so the program prepares to read a tag.
 		updateStateFromTo(main_state::none, main_state::tag);
 		pauseStreamPointer();
@@ -32,7 +32,7 @@ void SyntaxChecker::tagState()
 	{
 	case 's':
 		//The start of automata, expects '<' else it's error. If we want spaces between '<' and tag name, it should be added here.
-		if (isLeftArrow()) {
+		if (input.isLeftArrow()) {
 			updateTagState('z');
 		}
 		else {
@@ -41,10 +41,10 @@ void SyntaxChecker::tagState()
 		break;
 	case 'z':
 		//This states seperates a start tag from ending one. The ending one has no additional inputs.
-		if (isUpperCase()) {
+		if (input.isUpperCase()) {
 			updateTagState('n');
 		}
-		else if (isSlash()) {
+		else if (input.isSlash()) {
 			updateTagState('e');
 		}
 		else {
@@ -55,13 +55,13 @@ void SyntaxChecker::tagState()
 		//The state for a starting tag. Currently reading the name. 
 		//If there is a space, then we expect additional input, if there is '>' then that's the end of the tag and the program changes the state to default in exitFromTagState();
 		//If we want to accept space between TAG-NAME and > we make the change here.
-		if (isUpperCase() || isDash()) {
+		if (input.isUpperCase() || input.isDash()) {
 			updateTagState('n');
 		}
-		else if (isSpace()) {
+		else if (input.isSpace()) {
 			updateTagState('a');
 		}
-		else if (isRightArrow()) {
+		else if (input.isRightArrow()) {
 			exitFromTagState();
 		}
 		else {
@@ -70,7 +70,7 @@ void SyntaxChecker::tagState()
 		break;
 	case 'a':
 		//Expecting a quote for additional input
-		if (isQuote()) {
+		if (input.isQuote()) {
 			updateTagState('d');
 		}
 		else {
@@ -79,10 +79,10 @@ void SyntaxChecker::tagState()
 		break;
 	case 'd':
 		//Seperates the states to a tag with addition string input, and a tag with additional float/int input.
-		if (isUpperCase()) {
+		if (input.isUpperCase()) {
 			updateTagState('c');
 		}
-		else if (isDash() || isDigit()) {
+		else if (input.isDash() || input.isDigit()) {
 			//If it's a digit or - we change the main state to 'number' because the program is reading a number
 			//We update the prev state to 'tag' so that if the input stops in a final state the syntax is still incorrect
 			updateTagState('b');
@@ -95,10 +95,10 @@ void SyntaxChecker::tagState()
 		break;
 	case 'c':
 		//Expecting string with upper case letters, if there is a quote then the additional input is over
-		if (isUpperCase()) {
+		if (input.isUpperCase()) {
 			updateTagState('c');
 		}
-		else if (isQuote()) {
+		else if (input.isQuote()) {
 			updateTagState('t');
 		}
 		else {
@@ -108,7 +108,7 @@ void SyntaxChecker::tagState()
 	case 'b':
 		//When the main state is number, it reads digits until the input is something else. When the input is other than a number it goes back to it's previous state i.e. 'tag' in our case. The sub state was changed to b when we updated the main state so we are here.
 		//Expecting only '"'
-		if (isQuote()) {
+		if (input.isQuote()) {
 			updateTagState('t');
 		}
 		else {
@@ -117,7 +117,7 @@ void SyntaxChecker::tagState()
 		break;
 	case 't':
 		//After the quote there is nothing else to read expect '>'. If we want to read extra spaces between the two, we change it here.
-		if (isRightArrow()) {
+		if (input.isRightArrow()) {
 			exitFromTagState();
 		}
 		else {
@@ -128,10 +128,10 @@ void SyntaxChecker::tagState()
 		//This state was from the start of the function, when we read '/'. So it's an end tag. 
 		//For an end tag we expect only letters, dashes or '>'
 		//If it's '>' then we exit from the tag state
-		if (isUpperCase()||isDash()) {
+		if (input.isUpperCase()|| input.isDash()) {
 			updateTagState('e');
 		}
-		else if (isRightArrow()) {
+		else if (input.isRightArrow()) {
 			exitFromTagState();
 		}
 		else {
@@ -149,10 +149,10 @@ void SyntaxChecker::numberState()
 	switch (currentNumState) {
 	case 's':
 		//In the start we expect either - or a digit
-		if (isDash()) {
+		if (input.isDash()) {
 			updateNumState('m');
 		}
-		else if (isDigit()) {
+		else if (input.isDigit()) {
 			updateNumState('n',true);
 		}
 		else {
@@ -161,7 +161,7 @@ void SyntaxChecker::numberState()
 		break;
 	case 'm':
 		//If we read a - then we expect atleast one digit after it.
-		if (isDigit()) {
+		if (input.isDigit()) {
 			updateNumState('n',true);
 		}
 		else {
@@ -170,10 +170,10 @@ void SyntaxChecker::numberState()
 		break;
 	case 'n':
 		//We have read at least one digit here. If we read something else than a digit we exit from main state 'number', go back to the previous main state and pause the stream for one cycle
-		if (isDigit()) {
+		if (input.isDigit()) {
 			updateNumState('n',true);
 		}
-		else if (isDot()) {
+		else if (input.isDot()) {
 			updateNumState('d');
 		}
 		else {
@@ -182,7 +182,7 @@ void SyntaxChecker::numberState()
 		break;
 	case 'd':
 		//We have read one dot, now it's not a final state and we expect atleast one more digit.
-		if (isDigit()) {
+		if (input.isDigit()) {
 			updateNumState('a',true);
 		}
 		else {
@@ -191,7 +191,7 @@ void SyntaxChecker::numberState()
 		break;
 	case 'a':
 		//We have read at least one digit after a dot, it's a final state so if we read something else from a digit we change the main state to the previous one and pause the stream for a cycle.
-		if (isDigit()) {
+		if (input.isDigit()) {
 			updateNumState('a', true);
 		}
 		else {
@@ -262,6 +262,12 @@ void SyntaxChecker::exitFromNumState()
 	pauseStreamPointer();
 }
 
+void SyntaxChecker::stopCheck()
+{
+	iFile.close();
+	if (!canFinish()) throw "Syntax Error!\nThe program uses a strict syntax check. \nTag syntax: <TAG-NAME \"NUMBER\"> or <TAG-NAME \"UPPER_CASE_LETTERS\"> or <TAG-NAME> or </TAG-NAME>. \nBetween the tags should be only numbers";
+}
+
 void SyntaxChecker::checkSyntax()
 {
 	if (inputFile.empty()) {
@@ -270,7 +276,7 @@ void SyntaxChecker::checkSyntax()
 	iFile.open(inputFile);
 
 	//Main loop. Here we only operate on the main state and we are currently ignoring the sub states. 
-	while (iFile.get(currentInput)) {
+	while (iFile.get(input.getInput())) {
 		switch (currentMainState) {
 		case main_state::none:
 			defaultState();

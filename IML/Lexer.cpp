@@ -8,6 +8,22 @@ void Lexer::start()
 	iFile.open(inputFile);
 
 	while (iFile.get(currentInput)) {
-		
+		switch (previousState) {
+		case 'n':
+			
+			break;
+		case 'o':
+			break;
+		case 'e':
+			break;
+		case 'd':
+			break;
+		case 'u':
+			break;
+		case 'i':
+			break;
+		default:
+			break;
+		}
 	}
 }
