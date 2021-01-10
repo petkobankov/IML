@@ -68,6 +68,8 @@ void System::start()
 		//validateInputFileName();
 		//validateOutputFileName();
 		checkSyntax();
+		initiateLexer();
+		initiateParser();
 	}
 	catch (const MyException& e) {
 		std::cout << e.getMessage() << std::endl;

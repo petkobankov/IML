@@ -1,8 +1,8 @@
 #include "Lexer.h"
-
+#include "MyException.h"
 void Lexer::pushToken()
 {
-	tokens.push(currentToken);
+	tokens.push_back(currentToken);
 }
 
 void Lexer::updateToken()
@@ -11,9 +11,10 @@ void Lexer::updateToken()
 		pushToken();
 }
 
-void Lexer::updateTokenData(t_type type, const char& data)
+void Lexer::updateTokenData(t_type type, const char& data=' ')
 {
 	if (type == t_type::empty || type == t_type::left_arrow || type == t_type::slash || type == t_type::right_arrow) {
+		updateToken();
 		currentToken.type = type;
 		currentToken.value = "";
 	}
@@ -24,17 +25,27 @@ void Lexer::updateTokenData(t_type type, const char& data)
 	}
 }
 
+void Lexer::immediate_update()
+{
+	if (is_token_immediate()) {
+		updateTokenData(t_type::empty);
+	}
+}
+
 void Lexer::start()
 {
+
 	if (inputFile.empty()) {
-		throw "Input file missing!";
+		throw MyException(e_type::error, "Input file missing!");
 	}
+	tokens = std::vector<Token>();
 	iFile.open(inputFile);
 	t_type currentType = t_type::empty;
+	bool needsAdditionalUpdate = false;
 	while (iFile.get(currentInput.getInput())) {
+		immediate_update();
 		if (currentInput.isSpace()) {
 			currentType = t_type::empty;
-			updateToken();
 		}else if (currentInput.isDigit() || currentInput.isDot()) {
 			currentType = t_type::number;
 		}
@@ -46,21 +57,19 @@ void Lexer::start()
 		}
 		else if (currentInput.isLeftArrow()) {
 			currentType = t_type::left_arrow;
-			updateToken();
 		}
 		else if (currentInput.isRightArrow()) {
 			currentType = t_type::right_arrow;
-			updateToken();
 		}
 		else if (currentInput.isSlash()) {
 			currentType = t_type::slash;
-			updateToken();
 		}
 		else if (currentInput.isQuote()) {
 			currentType = t_type::empty;
-			updateToken();
+			
 		}
 		updateTokenData(currentType, currentInput.getInput());
 	}
+	updateToken();
 	stop();
 }

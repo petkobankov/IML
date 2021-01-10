@@ -22,8 +22,7 @@ void SyntaxChecker::defaultState()
 	}
 	else {
 		//When throwing an exception, this message is added for additional information. 
-		if (currentInput.isUpperCase() || currentInput.isLowerCase())
-			error_msg = "Excepting only numbers between tags.";
+		error_msg = "Excepting only numbers between tags.";
 		if (currentInput.isRightArrow())
 			error_msg = "Tags must start with '<'.";
 		//If the input is anything else from space,digit,dash,left arrow the program outputs there is error with the syntax. 
