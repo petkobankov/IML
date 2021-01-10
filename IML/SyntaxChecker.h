@@ -24,8 +24,8 @@ private:
 	void numberState();
 	void errorState();
 	InputSystem currentInput;
-	int line;
-	int col;
+	int line_count;
+	int col_count;
 	
 	//Used when updating the main state.
 	void updateStateFromTo(main_state from, main_state to, bool isNewStateFinal=false);
@@ -40,9 +40,10 @@ private:
 	void pauseStreamPointer() { iFile.seekg(-1, ios::cur); }
 	//Stops the checking of the syntax. Called when there is no more input, or if there is an error.
 	void stopCheck();
+	void updateLineCount();
 
 public:
-	SyntaxChecker(): line(1),col(1),inputFile(), currentMainState(main_state::none), prevMainState(main_state::none), currentInput(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};
+	SyntaxChecker(): line_count(1),col_count(1),inputFile(), currentMainState(main_state::none), prevMainState(main_state::none), currentInput(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};
 	void loadFile(const std::string& inputFile) { this->inputFile = inputFile; };
 	void checkSyntax();
 };

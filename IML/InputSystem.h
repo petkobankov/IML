@@ -13,5 +13,6 @@ public:
 	bool isRightArrow() { return isInput('>'); };
 	bool isSlash() { return isInput('/'); };
 	bool isSpace() { return (isInput(' ') || isInput('\n') || isInput('\t') || isInput('\v') || isInput('\r') || isInput('\f')); };
+	bool isNewLine() { return isInput('\n'); };
 	char& getInput() { return data; }
 };

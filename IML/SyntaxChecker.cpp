@@ -265,7 +265,18 @@ void SyntaxChecker::exitFromNumState()
 void SyntaxChecker::stopCheck()
 {
 	iFile.close();
-	if (!canFinish()) throw "Syntax Error!\nThe program uses a strict syntax check. \nTag syntax: <TAG-NAME \"NUMBER\"> or <TAG-NAME \"UPPER_CASE_LETTERS\"> or <TAG-NAME> or </TAG-NAME>. \nBetween the tags should be only numbers";
+	if (!canFinish()) throw "Syntax Error on \nThe program uses a strict syntax check. \nTag syntax: <TAG-NAME \"NUMBER\"> or <TAG-NAME \"UPPER_CASE_LETTERS\"> or <TAG-NAME> or </TAG-NAME>. \nBetween the tags should be only numbers";
+}
+
+void SyntaxChecker::updateLineCount()
+{
+	if (currentInput.isNewLine()) {
+		line_count++;
+		col_count = 1;
+	}
+	else {
+		col_count++;
+	}
 }
 
 void SyntaxChecker::checkSyntax()
@@ -294,6 +305,7 @@ void SyntaxChecker::checkSyntax()
 			throw "Internal error!";
 			break;
 		}
+		updateLineCount();
 	}
 	stopCheck();
 	//If the code reaches here then the syntax is correct.
