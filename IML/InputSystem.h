@@ -1,5 +1,5 @@
 #pragma once
-class CurrentInput {
+class InputSystem {
 private:
 	char data;
 	bool isInput(const char& input) { return (data == input); };

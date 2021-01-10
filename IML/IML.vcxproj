@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aggregate.h" />
-    <ClInclude Include="CurrentInput.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Map.h" />

@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Token.h"
 #include <queue>
+#include "InputSystem.h"
 class Lexer {
 private:
 	std::string inputFile;
@@ -10,7 +11,7 @@ private:
 	std::ifstream iFile;
 	char previousState;
 	Token currentToken;
-	char currentInput;
+	InputSystem currentInput;
 public:
 	Lexer(): inputFile(),tokens(),iFile(),currentInput(),previousState('n'){};
 	void loadFile(const std::string& inputFile) { this->inputFile = inputFile; };

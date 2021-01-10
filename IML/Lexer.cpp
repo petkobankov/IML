@@ -7,7 +7,7 @@ void Lexer::start()
 	}
 	iFile.open(inputFile);
 
-	while (iFile.get(currentInput)) {
+	while (iFile.get(currentInput.getInput())) {
 		switch (previousState) {
 		case 'n':
 			

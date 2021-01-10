@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include "CurrentInput.h"
+#include "InputSystem.h"
 using namespace std;
 class SyntaxChecker {
 private:
@@ -23,7 +23,7 @@ private:
 	void tagState();
 	void numberState();
 	void errorState();
-	CurrentInput input;
+	InputSystem currentInput;
 	
 	//Used when updating the main state.
 	void updateStateFromTo(main_state from, main_state to, bool isNewStateFinal=false);
@@ -40,7 +40,7 @@ private:
 	void stopCheck();
 
 public:
-	SyntaxChecker(): inputFile(), currentMainState(main_state::none), prevMainState(main_state::none),input(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};
+	SyntaxChecker(): inputFile(), currentMainState(main_state::none), prevMainState(main_state::none), currentInput(), iFile(), currentTagState('s'), currentNumState('s'), lastStateWasFinal(true){};
 	void loadFile(const std::string& inputFile) { this->inputFile = inputFile; };
 	void checkSyntax();
 };
