@@ -51,7 +51,7 @@ void System::initiateLexer(std::queue<Token>& tokens)
 
 void System::initiateParser(std::queue<Token>& tokens)
 {
-
+	inputParser.start(tokens);
 }
 
 void System::outputResult()
