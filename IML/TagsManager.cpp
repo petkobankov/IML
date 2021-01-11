@@ -233,7 +233,7 @@ bool TagsManager::isAdditionalInfoCorrect(const std::string& info, int id)
 		throw MyException(e_type::parser, "'" + tag_masks[id].getName() + "' does not expect additional info.");
 	}
 	else if (mask_additional_info_type == 'N') {
-		throw MyException(e_type::parser, "'" + tag_masks[id].getName() + "' does not accept additional info type number.");
+		throw MyException(e_type::parser, "'" + tag_masks[id].getName() + "' does not accept additional info type string.");
 	}
 
 	return tag_masks[id].isAdditionalInfoAccepted(info);
@@ -247,7 +247,7 @@ bool TagsManager::isAdditionalInfoCorrect(float info, int id)
 		return false;
 	}
 	else if (mask_additional_info_type == 'S') {
-		throw MyException(e_type::parser, "'" + tag_masks[id].getName() + "' does not accept additional info type string.");
+		throw MyException(e_type::parser, "'" + tag_masks[id].getName() + "' does not accept additional info type number.");
 		return false;
 	}
 	return true;

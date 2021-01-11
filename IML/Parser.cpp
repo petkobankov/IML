@@ -13,7 +13,7 @@ void Parser::foundLeftArrow(Token& currentToken)
 	is_in_tag = true;
 }
 
-void Parser::foundRightArrow(Token& currentToken)
+void Parser::foundRightArrow(Token& currentToken, std::vector<float>& numbers)
 {
 	if (!is_closing_tag) {
 		currentTag.setFrom(numbers.size());
@@ -21,8 +21,11 @@ void Parser::foundRightArrow(Token& currentToken)
 		currentTag = Tag();
 	}
 	else {
-		if (tag_order.empty() || currentTag.getName() != tag_order.top().getName()) {
-			throw MyException(e_type::parser, "Tag order is incorrect.");
+		if (tag_order.empty()) {
+			throw MyException(e_type::parser, "Tag order or count is incorrect. " + currentTag.getName() + " needs an opening tag.");
+		}
+		else if(currentTag.getName() != tag_order.top().getName()){
+			throw MyException(e_type::parser, "Tag order is incorrect. Open tag "+ tag_order.top().getName() +" is incompatible with closing tag " + currentTag.getName()+".");
 		}
 		else {
 
@@ -54,13 +57,13 @@ void Parser::foundString(Token& currentToken)
 			currentTag.setAdditionalInfoStr(currentToken.value);
 		}
 		else {
-			throw MyException(e_type::parser, "Tag name " + currentTag.getName() + " incompatible with additional info '" + currentToken.value + "'.");
+			throw MyException(e_type::parser, "Tag name " + currentTag.getName() + " is incompatible with additional info '" + currentToken.value + "'.");
 		}
 		
 	}
 }
 
-void Parser::foundNumber(Token& currentToken)
+void Parser::foundNumber(Token& currentToken, std::vector<float>& numbers)
 {
 	float current_num = -1;
 	try {
@@ -78,12 +81,12 @@ void Parser::foundNumber(Token& currentToken)
 			currentTag.setAdditionalInfoFloat(current_num);
 		}
 		else {
-			throw MyException(e_type::parser, "Tag name '" + currentTag.getName() + "' incompatible with additional info '" + currentToken.value + "'.");
+			throw MyException(e_type::parser, "Tag name '" + currentTag.getName() + "' is incompatible with additional info '" + currentToken.value + "'.");
 		}
 	}
 }
 
-void Parser::parseTokens(std::queue<Token>& tokens)
+void Parser::parseTokens(std::queue<Token>& tokens, std::vector<float>& numbers)
 {
 	while (!tokens.empty()) {
 		Token& currentToken = tokens.front();
@@ -94,13 +97,13 @@ void Parser::parseTokens(std::queue<Token>& tokens)
 			foundLeftArrow(currentToken);
 			break;
 		case t_type::right_arrow:
-			foundRightArrow(currentToken);
+			foundRightArrow(currentToken,numbers);
 			break;
 		case t_type::slash:
 			foundSlash(currentToken);
 			break;
 		case t_type::number:
-			foundNumber(currentToken);
+			foundNumber(currentToken,numbers);
 			break;
 		case t_type::string:
 			foundString(currentToken);
@@ -112,8 +115,9 @@ void Parser::parseTokens(std::queue<Token>& tokens)
 	}
 }
 
-void Parser::start(std::queue<Token>& tokens)
+void Parser::start(std::queue<Token>& tokens, std::vector<float>& numbers)
 {
-	parseTokens(tokens);
-	numbers;
+	parseTokens(tokens,numbers);
+	if (!tag_order.empty())
+		throw MyException(e_type::parser,"Not every tag is closed. Check '" + tag_order.top().getName()+"' one more time.");
 }

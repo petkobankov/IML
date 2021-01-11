@@ -11,7 +11,7 @@ private:
 	SyntaxChecker inputSyntaxChecker;
 	Lexer inputLexer;
 	Parser inputParser;
-
+	std::vector<float> numbers;
 	void getOutputFileName();
 	void getInputFileName();
 	void validateInputFileName();

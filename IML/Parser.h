@@ -10,8 +10,6 @@
 class Parser {
 	//Used for throwing exceptions. For example the tag order is incorrect or the program comes across an unknown tag name, we write the message in error_msg;
 	std::string error_msg;
-	//Used to store all the numbers outside of tags. 
-	std::vector<float> numbers;
 	//Used to keep track of open tags. When the program finds a closing tag, removes the top of the stack if they are the same, else error.
 	//Execution is when we pop from stack
 	std::stack<Tag> tag_order;
@@ -23,12 +21,11 @@ class Parser {
 	void reset_flags();
 
 	void foundLeftArrow(Token& currentToken);
-	void foundRightArrow(Token& currentToken);
+	void foundRightArrow(Token& currentToken, std::vector<float>& numbers);
 	void foundSlash(Token& currentToken);
 	void foundString(Token& currentToken);
-	void foundNumber(Token& currentToken);
-
-	void parseTokens(std::queue<Token>& tokens);
+	void foundNumber(Token& currentToken, std::vector<float>& numbers);
+	void parseTokens(std::queue<Token>& tokens, std::vector<float>& numbers);
 public:
-	void start(std::queue<Token>& tokens);
+	void start(std::queue<Token>& tokens, std::vector<float>& numbers);
 };
