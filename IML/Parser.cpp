@@ -25,8 +25,9 @@ void Parser::foundRightArrow(Token& currentToken)
 			throw MyException(e_type::parser, "Tag order is incorrect.");
 		}
 		else {
-			tag_excecution.push(tag_order.top());
-			tag_excecution.back().setTo(numbers.size() - 1);
+
+			tag_order.top().setTo(numbers.size() - 1);
+			manager.executeTag(tag_order.top(),numbers);
 			tag_order.pop();
 		}
 	}
@@ -114,5 +115,5 @@ void Parser::parseTokens(std::queue<Token>& tokens)
 void Parser::start(std::queue<Token>& tokens)
 {
 	parseTokens(tokens);
-	
+	numbers;
 }

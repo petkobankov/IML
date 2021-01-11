@@ -6,7 +6,6 @@ class TagMask {
 	std::vector<std::string> additional_info_boundry;
 	std::string name;
 	char additional_info_type;
-	
 public:
 	TagMask() = default;
 	TagMask(const std::string& name, const char& additional_info_type, const std::vector<std::string>& additional_info_boundry) :name(name), additional_info_type(additional_info_type), additional_info_boundry(additional_info_boundry){}

@@ -19,4 +19,8 @@ public:
 	int getId()const { return id; }
 	void setFrom(int _from) { from = _from; }
 	void setTo(int _to) { to = _to; }
+	float getAdditionalInfoFloat()const { return additional_info_f; }
+	const std::string& getAdditionalInfoString()const { return additional_info_s; }
+	int getFrom()const { return from; }
+	int getTo()const { return to; }
 };
