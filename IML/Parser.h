@@ -7,6 +7,12 @@
 #include "Tag.h"
 #include <queue>
 #include "TagsManager.h"
+/// <summary>
+/// Validate if tag names exist, if the additional info for a tag is correct, if tag order is correct... When a tag is closed correctly the program executes it and continues reading the tokens.
+/// Each tag is stored in a class called Tag. The class only stores what the program has read.
+/// The tag is later checked for correction or execution usnig the class TagsManager.
+/// The TagsManager stores the information for the markup langue. 
+/// </summary>
 class Parser {
 	//Used for throwing exceptions. For example the tag order is incorrect or the program comes across an unknown tag name, we write the message in error_msg;
 	std::string error_msg;

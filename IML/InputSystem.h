@@ -1,4 +1,8 @@
 #pragma once
+/// <summary>
+/// Used for making the code cleaner.
+/// Classes that use it are: SyntaxChecker and Lexer.
+/// </summary>
 class InputSystem {
 private:
 	char data;

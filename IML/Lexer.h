@@ -5,7 +5,8 @@
 #include <queue>
 #include "InputSystem.h"
 /// <summary>
-/// TODO
+/// Recognize what each char is. The information is later stored in tokens - {type,value}
+/// The value in the token is stored as string. If it's a number, it's converted to a float at the Parser phase, which is the next one after this.
 /// </summary>
 class Lexer {
 private:

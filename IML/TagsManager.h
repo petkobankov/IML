@@ -2,8 +2,11 @@
 #include "Tag.h"
 #include "TagMask.h"
 #include <vector>
+/// <summary>
+/// Tags manager is the markup language itself. 
+/// The implementation is not very scalable. I had another idea of making an abstract class and later creating children classes of it but for the little time I have left, this is what I could think of. 
+/// </summary>
 class TagsManager {
-	//The tag management can be done alot better, but for the few hours left before the deadline this is all I can do.
 	const std::vector<TagMask> tag_masks =
 	{
 		TagMask("MAP-INC",'N'),
@@ -19,8 +22,11 @@ class TagsManager {
 		TagMask("SRT-DST")
 	
 	};
+	//When first checking if a tag exists, if it does it's given an id. In our case the id is from 0 to 10; 
+	//The id is used later for easier data access.
 	int identifyTag(const Tag& input)const;
 
+	//The function for each tag. 
 	void mapInc(float arg, std::vector<float>& numbers, int from, int to);
 	void mapMlt(float arg, std::vector<float>& numbers, int from, int to);
 	void aggSum(std::vector<float>& numbers, int from, int to);

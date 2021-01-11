@@ -2,6 +2,9 @@
 #include <vector>
 #include <string>
 #include "Tag.h"
+/// <summary>
+/// Used in TagsManager. Stores information for the markup language tags.
+/// </summary>
 class TagMask {
 	std::vector<std::string> additional_info_boundry;
 	std::string name;

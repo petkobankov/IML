@@ -1,5 +1,10 @@
 #pragma once
 #include <string>
+/// <summary>
+/// During the Parser phase, when reading tokens, an instance of the class Tag is created when a token is tag_name. 
+/// If there is additional information read about the tag from the tokens it's stored in here. 
+/// The purpose of this class is only to keep information, and for easier management of tags. 
+/// </summary>
 class Tag {
 	std::string name;
 	float additional_info_f;
