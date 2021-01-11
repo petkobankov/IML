@@ -23,7 +23,7 @@ class TagsManager {
 public:
 	bool doesTagExist( Tag& input) ;
 	bool doesTagExist(const Tag& input)const ;
-	void executeTag(const Tag& input);
+	void executeTag(const Tag& input, std::vector<float>& numbers);
 	bool isAdditionalInfoCorrect(const std::string& info,int id);
 	bool isAdditionalInfoCorrect(float info,int id);
 };

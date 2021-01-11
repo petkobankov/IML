@@ -26,8 +26,9 @@ bool TagsManager::doesTagExist(const Tag& input) const
 	return (id != -1);
 }
 
-void TagsManager::executeTag(const Tag& input)
+void TagsManager::executeTag(const Tag& input, std::vector<float>& numbers)
 {
+
 }
 
 bool TagsManager::isAdditionalInfoCorrect(const std::string& info, int id)
