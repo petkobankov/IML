@@ -147,6 +147,8 @@
     <ClCompile Include="System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TagMask.h" />
+    <ClInclude Include="TagsManager.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="MyException.h" />

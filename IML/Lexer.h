@@ -4,6 +4,9 @@
 #include "Token.h"
 #include <queue>
 #include "InputSystem.h"
+/// <summary>
+/// TODO
+/// </summary>
 class Lexer {
 private:
 	std::string inputFile;

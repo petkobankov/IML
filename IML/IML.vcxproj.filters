@@ -59,5 +59,11 @@
     <ClInclude Include="Tag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TagsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TagMask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
