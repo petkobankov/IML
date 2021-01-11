@@ -17,8 +17,8 @@ private:
 	void validateInputFileName();
 	void validateOutputFileName();
 	void checkSyntax();
-	void initiateLexer();
-	void initiateParser();
+	void initiateLexer(std::queue<Token>& tokens);
+	void initiateParser(std::queue<Token>& tokens);
 	void outputResult();
 public:
 	void start();

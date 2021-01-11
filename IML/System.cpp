@@ -43,13 +43,13 @@ void System::checkSyntax()
 	inputSyntaxChecker.checkSyntax();
 }
 
-void System::initiateLexer()
+void System::initiateLexer(std::queue<Token>& tokens)
 {
 	inputLexer.loadFile(inputFile);
-	inputLexer.start();
+	inputLexer.start(tokens);
 }
 
-void System::initiateParser()
+void System::initiateParser(std::queue<Token>& tokens)
 {
 
 }
@@ -61,15 +61,15 @@ void System::outputResult()
 
 void System::start()
 {
-	
+	std::queue<Token> tokens;
 	try {
 		//getInputFileName();
 		//getOutputFileName();
 		//validateInputFileName();
 		//validateOutputFileName();
 		checkSyntax();
-		initiateLexer();
-		initiateParser();
+		initiateLexer(tokens);
+		initiateParser(tokens);
 	}
 	catch (const MyException& e) {
 		std::cout << e.getMessage() << std::endl;

@@ -1,20 +1,20 @@
 #include "Lexer.h"
 #include "MyException.h"
-void Lexer::pushToken()
+void Lexer::pushToken(std::queue<Token>& tokens)
 {
-	tokens.push_back(currentToken);
+	tokens.push(currentToken);
 }
 
-void Lexer::updateToken()
+void Lexer::updateToken(std::queue<Token>& tokens)
 {
 	if (!is_token_empty()) 
-		pushToken();
+		pushToken(tokens);
 }
 
-void Lexer::updateTokenData(t_type type, const char& data=' ')
+void Lexer::updateTokenData(t_type type, const char& data, std::queue<Token>& tokens)
 {
 	if (type == t_type::empty || type == t_type::left_arrow || type == t_type::slash || type == t_type::right_arrow) {
-		updateToken();
+		updateToken(tokens);
 		currentToken.type = type;
 		currentToken.value = "";
 	}
@@ -25,25 +25,25 @@ void Lexer::updateTokenData(t_type type, const char& data=' ')
 	}
 }
 
-void Lexer::immediate_update()
+void Lexer::immediate_update(std::queue<Token>& tokens)
 {
 	if (is_token_immediate()) {
-		updateTokenData(t_type::empty);
+		updateTokenData(t_type::empty,' ', tokens);
 	}
 }
 
-void Lexer::start()
+void Lexer::start(std::queue<Token>& tokens)
 {
 
 	if (inputFile.empty()) {
 		throw MyException(e_type::error, "Input file missing!");
 	}
-	tokens = std::vector<Token>();
+	tokens = std::queue<Token>();
 	iFile.open(inputFile);
 	t_type currentType = t_type::empty;
 	bool needsAdditionalUpdate = false;
 	while (iFile.get(currentInput.getInput())) {
-		immediate_update();
+		immediate_update(tokens);
 		if (currentInput.isSpace()) {
 			currentType = t_type::empty;
 		}else if (currentInput.isDigit() || currentInput.isDot()) {
@@ -68,8 +68,8 @@ void Lexer::start()
 			currentType = t_type::empty;
 			
 		}
-		updateTokenData(currentType, currentInput.getInput());
+		updateTokenData(currentType, currentInput.getInput(), tokens);
 	}
-	updateToken();
+	updateToken(tokens);
 	stop();
 }
